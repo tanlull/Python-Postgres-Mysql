@@ -4,14 +4,18 @@ conn = {};
 cursor = {};
 
 def connect():
-    global conn,cursor
-    try:
-        conn = mysql.connect("localhost","root","","test" )
-        cursor = conn.cursor()
-        return True 
-    except (Exception, mysql.Error) as error:
-        print("Error ", error)
-        return False
+   global conn,cursor
+   try:
+       conn = mysql.connect("localhost","root","","test" )
+       conn.set_character_set('utf8')
+       cursor = conn.cursor()
+       cursor.execute('SET NAMES utf8;')
+       cursor.execute('SET CHARACTER SET utf8;')
+       cursor.execute('SET character_set_connection=utf8;')
+       return True
+   except (Exception, mysql.Error) as error:
+       print("Error ", error)
+       return False
 
 def close():
     global conn,cursor
@@ -76,4 +80,3 @@ def deleteData(id):
         print(count, "Record deleted successfully ")
     except (Exception, mysql.Error) as error:
         print("Error in Delete operation", error)
-
